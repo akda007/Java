@@ -6,31 +6,17 @@ public class LinkedList<E> {
 
     private int count = 0;
     
-    public static class ListNode<E>{
-        E item;
-        ListNode<E> next;
+    public class ListNode<T>{
+        ListNode<T> next;
+        T item;
 
-        public ListNode(E listItem) {
+        public ListNode(T listItem) {
            item = listItem;     
         }
     }
 
     private ListNode<E> createNode(E item) {
         return new ListNode<E>(item);
-    }
-    
-    public void add(E item) {
-        ListNode<E> node = createNode(item);
-        count++;
-
-        if (head == null) {
-            head = node;
-            last = head;
-            return;
-        }
-        
-        last.next = node;
-        last = node;
     }
 
     private ListNode<E> getNodeAt(int index) {
@@ -43,7 +29,43 @@ public class LinkedList<E> {
         return current;
     }
 
-    public E getItem(int index) {
+    public void add(int index, E item) {
+        ListNode<E> newNode = createNode(item);
+
+        if (index == 0) {
+            addFirst(item);
+            return;
+        }
+
+        count++;
+
+        ListNode<E> previousNode = getNodeAt(index - 1);
+        ListNode<E> nextNode = previousNode.next;
+        
+        previousNode.next = newNode;
+        newNode.next = nextNode;
+
+        if (newNode.next == null) {
+            last = newNode;
+        }
+    }
+    
+    public void add(E item) {
+        ListNode<E> node = createNode(item);
+        count++;
+
+        //primeiro elemetno
+        if (head == null) {
+            head = node;
+            last = head;
+            return;
+        }
+        
+        last.next = node;
+        last = node;
+    }
+
+    public E get(int index) {
         return getNodeAt(index).item;
     }
 
@@ -55,31 +77,22 @@ public class LinkedList<E> {
         return last.item;
     }
 
-    public void insertAt(int index, E item) {
-        ListNode<E> node = getNodeAt(index - 1);
-        ListNode<E> nodeNext = node.next;
-        
-        node.next = createNode(item);
-        node.next.next = nodeNext;
-        count++;
-    }
-
     public void addFirst(E item) {
+        count++;
+
         ListNode<E> node = createNode(item);
 
         node.next = head;
         head = node;
-
-        count++;
     }
 
     public E removeFirst() {
-        E value = head.item;
-
-        head = head.next;
         count--;
 
-        return value;                
+        E value = head.item;
+        head = head.next;
+
+        return value;            
     }
 
     public E removeLast() {
@@ -91,20 +104,19 @@ public class LinkedList<E> {
         previous.next = null;
 
         count--;
-
         return value;                
     }
 
-    public E removeAt(int index) {
-        ListNode<E> current = getNodeAt(index);
+    public E remove(int index) {
+        count--;
+
         ListNode<E> previous = getNodeAt(index - 1);
+        ListNode<E> current = previous.next;
 
         E value = current.item;
 
         previous.next = current.next;
         current = null;
-
-        count--;
 
         return value;
     }
