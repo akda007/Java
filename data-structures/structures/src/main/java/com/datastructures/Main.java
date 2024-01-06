@@ -1,39 +1,28 @@
 package com.datastructures;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        PriorityQueue<Request> rQueue = new PriorityQueue<>((a, b) -> Request.compare(a, b));
+        HashMap<Integer> hashSet = new HashMap<>();
 
-        Scanner sc = new Scanner(System.in);
+        hashSet.add("yas", 10);
+        hashSet.add("babii", 30);
+        hashSet.add("andrey", 30);
+        hashSet.add("joao", 50);
+        hashSet.add("Niltinho", 100);
+        hashSet.add("abc", 30);
+        hashSet.add("absc", 30);
+        hashSet.add("adfdasdfsbc", 30);
+        hashSet.add("aafsdfadsbc", 30);
+        hashSet.add("aafsfsbc", 30);
+        hashSet.add("wzcv", 30);
+        hashSet.add("hhe", 30);
+        hashSet.add("accccbc", 30);
+        hashSet.add("ccaca", 30);
 
-        System.out.println("Digite os dados, digite . parar");
-
-        String data;
-        int priority;
-        while (true) {
-            System.out.print("Dados: ");
-            data = sc.nextLine();
-
-            if (".".equals(data)) {
-                break;
-            }
-
-            System.out.print("Prioridade: ");
-            priority = sc.nextInt();
-            sc.nextLine();
-            
-            rQueue.add(new Request(data, priority));
+        for (var str : hashSet) {
+            System.out.println(String.format("%s: %d", str.key, str.value));
         }
 
-        while (rQueue.size() > 0) {
-            System.out.println("Aperte enter para pegar um valor."); 
-            sc.nextLine();
-
-            System.out.println(rQueue.pool().toString());
-        }
-
-        sc.close();
+        System.out.println(hashSet.get("joao"));
     }
 }

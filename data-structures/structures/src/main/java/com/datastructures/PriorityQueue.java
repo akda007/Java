@@ -1,40 +1,49 @@
 package com.datastructures;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
-public class PriorityQueue<E> {
-    private LinkedList<E> queue;
+
+public class PriorityQueue<E> extends LinkedList<E>{
     private Comparator<E> cmp;
     
     public PriorityQueue(Comparator<E> comparator) {
-        queue = new LinkedList<>();
+        super();
+
         cmp = comparator;
     }
 
     public void add(E value) {
-        if (queue.size() == 0) {
-            queue.add(value);
+        if (super.size() == 0) {
+            super.add(value);
             return;
         }
 
+        Iterator<E> it = super.iterator();
+
         int index = 0;
-        while (cmp.compare(value, queue.get(index)) >= 0){
+        while (it.hasNext()) {
+            E nextValue = it.next();
+
+            if (cmp.compare(value, nextValue) < 0) {
+                break;
+            }
+
             index++;
-            if (index == queue.size()) break;
         }
 
-        queue.add(index, value);
+        super.add(index, value);
     }
 
     public E peek() {
-        return queue.getLast(); 
+        return super.getLast(); 
     } 
 
     public E pool() {
-        return queue.removeLast();
+        return super.removeLast();
     }
 
     public int size() {
-        return queue.size();
+        return super.size();
     }
 }

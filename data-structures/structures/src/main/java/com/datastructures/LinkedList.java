@@ -1,6 +1,8 @@
 package com.datastructures;
 
-public class LinkedList<E> {
+import java.util.Iterator;
+
+public class LinkedList<E>  implements Iterable<E>{
     private ListNode<E> head;
     private ListNode<E> last;
 
@@ -13,6 +15,38 @@ public class LinkedList<E> {
         public ListNode(T listItem) {
            item = listItem;     
         }
+    }
+
+    public class LinkedListIterator<T> implements Iterator<T> {
+        private ListNode<T> current;
+        private ListNode<T> first;
+
+        @Override
+        public boolean hasNext() {
+            if (first == null)
+                return false;
+
+            if (current == null)
+                return true;
+
+            return current.next != null;
+        }
+
+        @Override
+        public T next() {
+            if (current == null) {
+                current = first;
+                return first.item;
+            }
+
+            current = current.next;
+            return current.item;
+        }
+
+        public LinkedListIterator(ListNode<T> first) {
+            this.first = first;
+        }
+
     }
 
     private ListNode<E> createNode(E item) {
@@ -123,5 +157,10 @@ public class LinkedList<E> {
 
     public int size() {
         return count;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new LinkedListIterator<E>(head);
     }
 }
